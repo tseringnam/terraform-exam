@@ -12,6 +12,7 @@ resource "aws_db_instance" "default" {
   db_subnet_group_name = aws_db_subnet_group.ziyo_subg.id
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
   storage_type = "gp2"
+  #kms_key_id = aws_kms_key.ssm_key.key_id
 }
 
 resource "aws_db_subnet_group" "ziyo_subg" {
@@ -22,6 +23,10 @@ resource "aws_db_subnet_group" "ziyo_subg" {
   }
 }
 
+resource "aws_kms_key" "ssm_key" {
+  description             = "KMS key for ssm params"
+  deletion_window_in_days = 10
+}
 
 
 resource "random_password" "password" {
@@ -32,6 +37,6 @@ resource "random_password" "password" {
 
 resource "aws_ssm_parameter" "foo" {
   name  = "ziyo_class_rds_pass"
-  type  = "String"
+  type  = "SecureString"
   value = random_password.password.result
 }
