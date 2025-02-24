@@ -1,24 +1,22 @@
 
 resource "aws_s3_bucket" "ziyotek_bucket" {
-  bucket = "tsering-terraform-exam"
+  bucket = var.bucket_name
 
-  tags = {
-    Name        = "My bucket"
-    Environment = "Ziyp"
-  }
+  tags = var.s3_tag
+
 }
 
 
-//version
+# //version
 
 resource "aws_s3_bucket_versioning" "bucket_versioning" {
   bucket = aws_s3_bucket.ziyotek_bucket.id
   versioning_configuration {
-    status = "Enabled"
+    status = var.s3_version_status
   }
 }
 
-//ecrption 
+# //ecrption 
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
   bucket = aws_s3_bucket.ziyotek_bucket.id
