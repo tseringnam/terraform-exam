@@ -3,7 +3,7 @@ resource "aws_security_group" "allow_tls" {
   description = "Allow TLS inbound traffic and all outbound traffic"
   vpc_id      = aws_vpc.ziyo_vpc.id
 
-  tags = var.s3_tag
+  #tags = var.s3_tag
 }
 
 # resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
@@ -22,6 +22,15 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   from_port   = var.sg_ingress_from_port
   ip_protocol = var.sg_ingres_protocol
   to_port     = var.sg_ingress_to_port
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = var.sg_ingerss_cidr_block
+
+  from_port   = 80
+  ip_protocol = "tcp"
+  to_port     = 80
 }
 
 

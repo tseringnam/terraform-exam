@@ -151,6 +151,12 @@ variable "sg_egerss_ip_protocol" {
   default = "-1"
 }
 
+variable "security_group_id" {
+  type    = string
+  default = "sg-0658e2b76581050a2"
+
+}
+
 //subnet 
 
 variable "public_subnet_cidr_block" {
